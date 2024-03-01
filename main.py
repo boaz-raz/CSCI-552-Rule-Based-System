@@ -1,39 +1,46 @@
-## Step 1: Define the Working Memory and Rules
-# Working memory: a list of facts
-working_memory = ['hungry', 'food_available']
+import argparse
 
-# Rules: a list of tuples (antecedents, consequent)
-rules = [
-    (('hungry', 'food_available'), 'eat'),
-]
-
-## Step 2: Implement the Rule Application Function
 def apply_rule(rule, working_memory):
+    """Check if the rule's antecedents are all in the working memory."""
     antecedents, consequent = rule
     if all(item in working_memory for item in antecedents):
-        if consequent not in working_memory:
-            working_memory.append(consequent)
-            return True
-    return False
+        return consequent
+    return None
 
+def recommend_destinations(working_memory):
+    """Recommend vacation destinations based on the working memory."""
+    rules = [
+        (('warm_weather', 'active_vacation', 'nature', 'over_7_days'), 'Costa Rica - Explore rainforests and beaches'),
+        (('cold_weather', 'quiet_vacation', 'urban'), 'Vienna in winter - Enjoy museums and coffee houses'),
+        (('warm_weather', 'kids'), 'Orlando, Florida - Theme parks and family fun'),
+        (('urban', 'active_vacation', 'less_7_days'), 'New York City - A fast-paced city adventure'),
+        (('cold_weather', 'nature'), 'Banff, Canada - Winter sports and stunning landscapes'),
+        (('quiet_vacation', 'nature'), 'Sedona, Arizona - Relaxing desert retreat'),
+        (('winter', 'kids'), 'Lapland, Finland - Meet Santa and see the Northern Lights'),
+        (('flying', 'over_7_days'), 'Maldives - Overwater bungalows and scuba diving'),
+    ]
 
-## Step 3: Implement the Forward-Chaining Mechanism
-def run_ps(working_memory, rules):
-    new_info_added = True
-    while new_info_added:
-        new_info_added = False
-        for rule in rules:
-            if apply_rule(rule, working_memory):
-                new_info_added = True
-                print(f"Applied rule: {rule} | New working memory: {working_memory}")
-    return working_memory
+    recommendations = []
+    for rule in rules:
+        recommendation = apply_rule(rule, working_memory)
+        if recommendation:
+            recommendations.append(recommendation)
+    return recommendations
 
+def main():
+    # Prompt the user for their preferences
+    print("All options: 'warm_weather','cold_weather','winter' 'kids', 'over_7_days', 'quiet_vacation', 'active_vacation', 'nature', 'urban','flying','less_7_days'\n")
 
-## Step 4: Run the Production System
-final_working_memory = run_ps(working_memory, rules)
-print("Final working memory:", final_working_memory)
+    print("Enter your vacation preferences separated by commas (e.g., warm_weather, kids, over_7_days):")
 
+    user_input = input()
+    preferences = [pref.strip() for pref in user_input.split(',')]  # Convert string to list and remove any extra whitespace
 
-## Example Output
-#Applied rule: (('hungry', 'food_available'), 'eat') | New working memory: ['hungry', 'food_available', 'eat']
-#Final working memory: ['hungry', 'food_available', 'eat']
+    # Generate recommendations
+    recommendations = recommend_destinations(preferences)
+    print("\nRecommended Vacation Destinations based on your preferences:")
+    for recommendation in recommendations:
+        print(f"- {recommendation}")
+
+if __name__ == "__main__":
+    main()

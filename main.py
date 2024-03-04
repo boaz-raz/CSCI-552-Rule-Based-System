@@ -127,7 +127,7 @@ def main():
     # Prompt the user for their preferences
     print("All options: 'warm_weather','cold_weather','winter' 'kids', 'over_7_days', 'quiet_vacation', 'active_vacation', 'nature', 'urban','flying','less_7_days'\n")
 
-    print("Enter your vacation preferences separated by commas (e.g., warm_weather, kids, over_7_days):")
+    print("Enter your vacation preferences separated by commas (e.g., warm_weather,over_7_days,nature,quiet_vacation):")
 
     user_input = input()
     preferences = [pref.strip() for pref in user_input.split(',')]  # Convert string to list and remove any extra whitespace
